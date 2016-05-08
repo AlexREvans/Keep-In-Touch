@@ -26,18 +26,17 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
 
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
+                .inflate(R.layout.card_last_contact, parent, false);
         // set the view's size, margins, paddings and layout parameters
         // ...
-        ContactViewHolder vh = new ContactViewHolder((TextView)v);
+        ContactViewHolder vh = new ContactViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(ContactViewHolder holder, int position) {
         Contact c = contacts.get(position);
-        String s = "You last spoke to " + c.getName() + " on " + c.getLastContacted() + ": " + c.getLastMessage();
-        holder.text.setText(s);
+        holder.load(c);
     }
 
     @Override
