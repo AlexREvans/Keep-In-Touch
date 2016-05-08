@@ -9,6 +9,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.alexe.keepintouch.data.Contact;
+import com.alexe.keepintouch.data.manager.SmsContactManager;
+
+import java.util.List;
+
 public class KeepInTouchActivity extends AppCompatActivity {
 
     @Override
@@ -26,6 +31,9 @@ public class KeepInTouchActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        List<Contact> smsContacts = new SmsContactManager(getApplicationContext()).getContacts();
+        int t = 9;
     }
 
     @Override
