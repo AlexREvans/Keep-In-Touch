@@ -72,9 +72,9 @@ public class SmsContactManager implements ContactManager {
             String body = c.getString(2);
             ContactInfo contactInfo = getContactInfoFromPhoneNumber(phoneNumber);
 
-            c.moveToNext();
 
             if(contactInfo == null) {
+                c.moveToNext();
                 continue;
             }
 
@@ -88,7 +88,7 @@ public class SmsContactManager implements ContactManager {
                 contact.setLastContacted(lastContact);
                 contact.setSource("SMS");
                 contact.setLastMessage(body);
-                lastInteraction.put(phoneNumber, contact);
+                lastInteraction.put(contactInfo.id, contact);
             } else {
                 contact = lastInteraction.get(contactInfo.id);
 
@@ -97,6 +97,8 @@ public class SmsContactManager implements ContactManager {
                     contact.setLastMessage(body);
                 }
             }
+
+            c.moveToNext();
         }
 
         return lastInteraction;
@@ -106,7 +108,7 @@ public class SmsContactManager implements ContactManager {
         public String id;
         public String name;
         public String type;
-        public Bitmap photo;
+        public String photo;
 
     }
 
@@ -124,6 +126,7 @@ public class SmsContactManager implements ContactManager {
         );
 
         if(!c.moveToFirst()) {
+            c.close();
             return null;
         }
 
@@ -131,13 +134,7 @@ public class SmsContactManager implements ContactManager {
         x.name = c.getString(0);
         x.id = c.getString(1);
         x.type = c.getString(2);
-        Bitmap pic = null;
-        try {
-            pic = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(c.getString(3)));
-        } catch (Exception e) {
-
-        }
-        x.photo = pic;
+        x.photo = c.getString(3);
 
         c.close();
 

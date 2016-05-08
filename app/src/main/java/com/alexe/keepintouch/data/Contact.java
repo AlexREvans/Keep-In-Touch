@@ -2,6 +2,7 @@ package com.alexe.keepintouch.data;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 
 import java.util.Date;
 
@@ -10,7 +11,7 @@ public class Contact {
     private String name;
     private String source;
     private Date lastContacted;
-    private Bitmap picture;
+    private String picture;
     private String lastMessage;
     private String id;
 
@@ -46,11 +47,11 @@ public class Contact {
         this.lastContacted = lastContacted;
     }
 
-    public Bitmap getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(Bitmap picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 
@@ -61,4 +62,15 @@ public class Contact {
     public void setId(String id) {
         this.id = id;
     }
+/*
+    public Bitmap tryPicture() {
+
+        Bitmap pic = null;
+        try {
+            pic = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(c.getString(3)));
+        } catch (Exception e) {
+
+        }
+        return pic;
+    }*/
 }
