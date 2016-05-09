@@ -15,6 +15,8 @@ import com.alexe.keepintouch.control.ContactAdapter;
 import com.alexe.keepintouch.data.Contact;
 import com.alexe.keepintouch.data.manager.SmsContactManager;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class KeepInTouchActivity extends AppCompatActivity {

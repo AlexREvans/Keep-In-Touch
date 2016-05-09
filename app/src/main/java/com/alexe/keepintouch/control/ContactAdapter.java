@@ -11,6 +11,8 @@ import com.alexe.keepintouch.data.Contact;
 
 import org.w3c.dom.Text;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
@@ -18,6 +20,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder> {
     private List<Contact> contacts;
 
     public ContactAdapter(List<Contact> contacts) {
+        Collections.sort(contacts, new Comparator<Contact>() {
+            @Override
+            public int compare(Contact lhs, Contact rhs) {
+                return lhs.getLastContacted().compareTo(rhs.getLastContacted());
+            }
+        });
+
         this.contacts = contacts;
     }
 
