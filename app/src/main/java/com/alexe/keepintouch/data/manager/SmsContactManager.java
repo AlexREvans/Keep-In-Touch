@@ -1,6 +1,7 @@
 package com.alexe.keepintouch.data.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -68,9 +69,9 @@ public class SmsContactManager implements ContactManager {
         for (int i = 0; i < c.getCount(); ++i) {
 
             Date lastContact = new Date(c.getLong(0));
-            String phoneNumber = c.getString(1);
+            final String phoneNumber = c.getString(1);
             String body = c.getString(2);
-            ContactInfo contactInfo = getContactInfoFromPhoneNumber(phoneNumber);
+            final ContactInfo contactInfo = getContactInfoFromPhoneNumber(phoneNumber);
 
 
             if(contactInfo == null) {
@@ -78,7 +79,7 @@ public class SmsContactManager implements ContactManager {
                 continue;
             }
 
-            Contact contact;
+            final Contact contact;
 
             if (!lastInteraction.containsKey(contactInfo.id)) {
                 contact = new Contact();
@@ -88,6 +89,16 @@ public class SmsContactManager implements ContactManager {
                 contact.setLastContacted(lastContact);
                 contact.setSource("SMS");
                 contact.setLastMessage(body);
+
+                contact.setTalkToMe(new Contact.Respond() {
+                    @Override
+                    public Intent getIntent(String message) {
+                        Intent respond = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", phoneNumber, null));
+                        respond.putExtra("sms_body", message);
+                        return respond;
+                    }
+                });
+
                 lastInteraction.put(contactInfo.id, contact);
             } else {
                 contact = lastInteraction.get(contactInfo.id);

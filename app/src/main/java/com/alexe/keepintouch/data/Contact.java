@@ -1,10 +1,13 @@
 package com.alexe.keepintouch.data;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.Telephony;
 
 import java.util.Date;
+import java.util.concurrent.Callable;
 
 public class Contact {
 
@@ -14,6 +17,20 @@ public class Contact {
     private String picture;
     private String lastMessage;
     private String id;
+
+    public static abstract class Respond {
+        public abstract Intent getIntent(String message);
+    }
+
+    public Respond getTalkToMe() {
+        return talkToMe;
+    }
+
+    public void setTalkToMe(Respond talkToMe) {
+        this.talkToMe = talkToMe;
+    }
+
+    private Respond talkToMe;
 
     public String getLastMessage() {
         return lastMessage;
@@ -62,15 +79,5 @@ public class Contact {
     public void setId(String id) {
         this.id = id;
     }
-/*
-    public Bitmap tryPicture() {
 
-        Bitmap pic = null;
-        try {
-            pic = MediaStore.Images.Media.getBitmap(context.getContentResolver(), Uri.parse(c.getString(3)));
-        } catch (Exception e) {
-
-        }
-        return pic;
-    }*/
 }

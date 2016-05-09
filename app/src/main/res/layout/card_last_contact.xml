@@ -20,6 +20,7 @@
             android:backgroundTint="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:paddingBottom="10dp"
             android:scaleType="centerCrop"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -30,7 +31,6 @@
 
         <TextView
             android:id="@+id/contactOn"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -41,7 +41,6 @@
 
         <TextView
             android:id="@+id/contactName"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/contactPic"
