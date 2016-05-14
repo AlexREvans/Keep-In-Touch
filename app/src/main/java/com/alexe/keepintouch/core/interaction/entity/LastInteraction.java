@@ -1,14 +1,12 @@
 package com.alexe.keepintouch.core.interaction.entity;
 
-import com.alexe.keepintouch.core.interaction.source.InteractionSource;
-
 import java.util.Date;
 
 public class LastInteraction {
 
     private Contact contact;
     private Date date;
-    private SourceDetails interactionSource;
+    private SourceDetails interactionSourceDetails;
 
     public LastInteraction(Contact contact, Date date, SourceDetails source) {
         this.contact = contact;
@@ -23,4 +21,15 @@ public class LastInteraction {
         return date;
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public SourceDetails getInteractionSourceDetails() {
+        return interactionSourceDetails;
+    }
+
+    public void setInteractionSourceDetails(SourceDetails interactionSourceDetails) {
+        this.interactionSourceDetails = interactionSourceDetails;
+    }
 }

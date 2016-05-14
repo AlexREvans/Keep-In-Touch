@@ -1,54 +1,20 @@
 package com.alexe.keepintouch.data.interaction.source.sms;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
 
+import com.alexe.keepintouch.core.interaction.entity.Contact;
 import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
 import com.alexe.keepintouch.core.interaction.source.InteractionSource;
-import com.alexe.keepintouch.data.todo.Contact;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SmsInteractionSource implements InteractionSource {
-    @Override
-    public Map<String, LastInteraction> getLastInteractions(Date sinceTime) {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return "Text Message";
-    }
-
-    @Override
-    public Responder getResponder() {
-        return null;
-    }
-
-
-
-
-
-
-
-
-
-
-
-    private Context context;
-
-    public SmsContactManager(Context ctx) {
-        context = ctx;
-    }
 
     private final String[] COLS = new String[]{
             Telephony.Sms.DATE,
@@ -56,32 +22,34 @@ public class SmsInteractionSource implements InteractionSource {
             Telephony.Sms.BODY
     };
 
+    private Context context;
+
+    public SmsInteractionSource(Context ctx) {
+        context = ctx;
+    }
+
     @Override
-    public List<Contact> getContacts() {
-
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.YEAR, -1);
-
+    public Map<String, LastInteraction> getLastInteractions(Date sinceTime) {
 
         Cursor c = context.getContentResolver().query(
                 Telephony.Sms.CONTENT_URI,
                 COLS,
                 Telephony.Sms.DATE + " > ?",
                 new String[]{
-                        Long.toString(cal.getTimeInMillis())
+                        Long.toString(sinceTime.getTime())
                 },
                 null);
 
-        Map<String, Contact> lastInteractions = mapResults(c);
+        Map<String, LastInteraction> lastInteractions = mapResults(c);
 
         c.close();
 
-        return new ArrayList<>(lastInteractions.values());
+        return lastInteractions;
     }
 
-    private Map<String, Contact> mapResults(Cursor c) {
+    private Map<String, LastInteraction> mapResults(Cursor c) {
 
-        Map<String, Contact> lastInteraction = new HashMap<>();
+        Map<String, LastInteraction> lastInteraction = new HashMap<>();
 
         if (!c.moveToFirst()) {
             return lastInteraction;
@@ -94,39 +62,28 @@ public class SmsInteractionSource implements InteractionSource {
             String body = c.getString(2);
             final ContactInfo contactInfo = getContactInfoFromPhoneNumber(phoneNumber);
 
-
-            if(contactInfo == null) {
+            if (contactInfo == null) {
                 c.moveToNext();
                 continue;
             }
 
-            final Contact contact;
+            final LastInteraction lastInter;
 
             if (!lastInteraction.containsKey(contactInfo.id)) {
-                contact = new Contact();
-                contact.setId(contactInfo.id);
-                contact.setName(contactInfo.name);
-                contact.setPicture(contactInfo.photo);
-                contact.setLastContacted(lastContact);
-                contact.setSource("SMS");
-                contact.setLastMessage(body);
+                SmsSourceDetails details = new SmsSourceDetails(phoneNumber);
+                details.setLastMessage(body);
+                lastInter = new LastInteraction(
+                        new Contact(contactInfo.id, contactInfo.name, contactInfo.photo),
+                        lastContact,
+                        details);
 
-                contact.setTalkToMe(new Contact.Respond() {
-                    @Override
-                    public Intent getIntent(String message) {
-                        Intent respond = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", phoneNumber, null));
-                        respond.putExtra("sms_body", message);
-                        return respond;
-                    }
-                });
-
-                lastInteraction.put(contactInfo.id, contact);
+                lastInteraction.put(contactInfo.id, lastInter);
             } else {
-                contact = lastInteraction.get(contactInfo.id);
+                lastInter = lastInteraction.get(contactInfo.id);
 
-                if (lastContact.after(contact.getLastContacted())) {
-                    contact.setLastContacted(lastContact);
-                    contact.setLastMessage(body);
+                if (lastContact.after(lastInter.getDate())) {
+                    lastInter.setDate(lastContact);
+                    ((SmsSourceDetails) lastInter.getInteractionSourceDetails()).setLastMessage(body);
                 }
             }
 
@@ -154,10 +111,10 @@ public class SmsInteractionSource implements InteractionSource {
                         ContactsContract.PhoneLookup.TYPE,
                         ContactsContract.PhoneLookup.PHOTO_URI
                 },
-                null,null,null
+                null, null, null
         );
 
-        if(!c.moveToFirst()) {
+        if (!c.moveToFirst()) {
             c.close();
             return null;
         }
