@@ -40,6 +40,7 @@ public class SmsSourceTest extends ApplicationTestCase<Application> {
 
     @Test
     public void getSmsInteractions() {
+        setup();
         im.addInteractionSource(new SmsInteractionSource(getContext()));
         im.populateLastInteractions(sixMonthsAgo());
         List<LastInteraction> interactions = ip.getLastInteractions();
