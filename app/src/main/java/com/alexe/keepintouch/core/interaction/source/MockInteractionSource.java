@@ -45,7 +45,7 @@ public class MockInteractionSource implements InteractionSource {
             }
 
             @Override
-            public Responder getResponder(String message) {
+            public Responder getResponder() {
                 return null;
             }
         };

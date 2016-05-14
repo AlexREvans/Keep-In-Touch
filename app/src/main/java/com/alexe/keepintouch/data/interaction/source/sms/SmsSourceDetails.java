@@ -28,7 +28,7 @@ public class SmsSourceDetails implements SourceDetails {
     }
 
     @Override
-    public Responder getResponder(String message) {
+    public Responder getResponder() {
         return new Responder() {
             @Override
             public Intent getIntent(String message) {

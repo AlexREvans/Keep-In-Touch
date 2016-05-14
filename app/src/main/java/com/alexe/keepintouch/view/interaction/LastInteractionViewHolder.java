@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.alexe.keepintouch.R;
 import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
+import com.alexe.keepintouch.data.interaction.source.sms.SmsSourceDetails;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,7 +32,7 @@ public class LastInteractionViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                v.getContext().startActivity(lastInteraction.getResponder().getIntent("Hey " + lastInteraction.getContact().getName() + "! I'm sending you a super-cool message to keep in touch! Ha!"));
+                v.getContext().startActivity(lastInteraction.getInteractionSourceDetails().getResponder().getIntent("Hey " + lastInteraction.getContact().getName() + "! I'm sending you a super-cool message to keep in touch! Ha!"));
             }
         });
     }
@@ -44,7 +45,11 @@ public class LastInteractionViewHolder extends RecyclerView.ViewHolder {
 
         contactName.setText(lastInteraction.getContact().getName());
         contactedOn.setText(new SimpleDateFormat("dd MMM").format(cal.getTime()));
-        contactMessage.setText(lastInteraction.getLastMessage());
+
+        if (lastInteraction.getInteractionSourceDetails() instanceof SmsSourceDetails) {
+            contactMessage.setText(((SmsSourceDetails) lastInteraction.getInteractionSourceDetails()).getLastMessage());
+        }
+
         if (lastInteraction.getContact().getPictureUri() != null) {
             contactPic.setImageURI(Uri.parse(lastInteraction.getContact().getPictureUri()));
         } else {

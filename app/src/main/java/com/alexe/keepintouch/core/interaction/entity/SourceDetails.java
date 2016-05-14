@@ -6,7 +6,7 @@ import com.alexe.keepintouch.core.interaction.source.InteractionSource;
 
 public interface SourceDetails {
     String getName();
-    Responder getResponder(String message);
+    Responder getResponder();
 
     abstract class Responder {
         public abstract Intent getIntent(String message);

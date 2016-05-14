@@ -76,6 +76,7 @@ public class SmsInteractionSource implements InteractionSource {
                         new Contact(contactInfo.id, contactInfo.name, contactInfo.photo),
                         lastContact,
                         details);
+                lastInter.setInteractionSourceDetails(details);
 
                 lastInteraction.put(contactInfo.id, lastInter);
             } else {

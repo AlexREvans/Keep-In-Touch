@@ -16,6 +16,7 @@ import com.alexe.keepintouch.core.interaction.InteractionManager;
 import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
 import com.alexe.keepintouch.core.interaction.presenter.InteractionPresenter;
 import com.alexe.keepintouch.core.interaction.source.MockInteractionSource;
+import com.alexe.keepintouch.data.interaction.source.sms.SmsInteractionSource;
 
 import java.util.Calendar;
 import java.util.List;
@@ -34,6 +35,7 @@ public class InteractionActivityPresenter extends AppCompatActivity implements I
 
         im = new InteractionManager(this);
         im.addInteractionSource(new MockInteractionSource());
+        im.addInteractionSource(new SmsInteractionSource(this));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
