@@ -1,4 +1,6 @@
-package com.alexe.keepintouch.core;
+package com.alexe.keepintouch.core.interaction.presenter;
+
+import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
 
 import java.util.List;
 

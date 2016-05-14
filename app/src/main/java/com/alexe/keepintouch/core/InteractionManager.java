@@ -1,5 +1,7 @@
 package com.alexe.keepintouch.core;
 
+import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
+import com.alexe.keepintouch.core.interaction.presenter.InteractionPresenter;
 import com.alexe.keepintouch.core.interaction.source.InteractionSource;
 
 import java.util.ArrayList;

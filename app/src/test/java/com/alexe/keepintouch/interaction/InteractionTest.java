@@ -1,11 +1,11 @@
 package com.alexe.keepintouch.interaction;
 
 import com.alexe.keepintouch.core.InteractionManager;
-import com.alexe.keepintouch.core.InteractionPresenter;
-import com.alexe.keepintouch.core.LastInteraction;
-import com.alexe.keepintouch.core.MockInteractionPresenter;
-import com.alexe.keepintouch.core.interaction.source.MockInteractionSource;
-import com.alexe.keepintouch.core.interaction.source.SmsInteractionSource;
+import com.alexe.keepintouch.core.interaction.presenter.InteractionPresenter;
+import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
+import com.alexe.keepintouch.core.interaction.presenter.MockInteractionPresenter;
+import com.alexe.keepintouch.core.interaction.source.mock.MockInteractionSource;
+import com.alexe.keepintouch.core.interaction.source.sms.SmsInteractionSource;
 
 import org.junit.Before;
 import org.junit.Test;
