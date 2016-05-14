@@ -1,11 +1,10 @@
 package com.alexe.keepintouch.interaction;
 
-import com.alexe.keepintouch.core.InteractionManager;
-import com.alexe.keepintouch.core.interaction.presenter.InteractionPresenter;
+import com.alexe.keepintouch.core.interaction.InteractionManager;
 import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
 import com.alexe.keepintouch.core.interaction.presenter.MockInteractionPresenter;
-import com.alexe.keepintouch.core.interaction.source.mock.MockInteractionSource;
-import com.alexe.keepintouch.core.interaction.source.sms.SmsInteractionSource;
+import com.alexe.keepintouch.core.interaction.source.MockInteractionSource;
+import com.alexe.keepintouch.data.interaction.source.sms.SmsInteractionSource;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +20,7 @@ import static org.hamcrest.core.IsNot.not;
 public class InteractionTest {
 
     private InteractionManager im;
-    private InteractionPresenter ip;
+    private MockInteractionPresenter ip;
 
     @Before
     public void setup() {

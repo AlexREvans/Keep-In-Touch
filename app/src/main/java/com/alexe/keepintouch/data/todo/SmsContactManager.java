@@ -1,19 +1,12 @@
-package com.alexe.keepintouch.data.manager;
+package com.alexe.keepintouch.data.todo;
 
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.ContactsContract;
-import android.provider.MediaStore;
 import android.provider.Telephony;
-import android.util.Log;
 
-import com.alexe.keepintouch.data.Contact;
-import com.alexe.keepintouch.data.ContactManager;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

@@ -1,13 +1,8 @@
-package com.alexe.keepintouch.data;
+package com.alexe.keepintouch.data.todo;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.provider.Telephony;
 
 import java.util.Date;
-import java.util.concurrent.Callable;
 
 public class Contact {
 

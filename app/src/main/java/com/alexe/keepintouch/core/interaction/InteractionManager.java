@@ -1,4 +1,4 @@
-package com.alexe.keepintouch.core;
+package com.alexe.keepintouch.core.interaction;
 
 import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
 import com.alexe.keepintouch.core.interaction.presenter.InteractionPresenter;

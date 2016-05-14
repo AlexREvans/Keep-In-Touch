@@ -1,4 +1,4 @@
-package com.alexe.keepintouch.data;
+package com.alexe.keepintouch.data.todo;
 
 import java.util.List;
 

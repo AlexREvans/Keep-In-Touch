@@ -8,7 +8,6 @@ public class MockInteractionPresenter implements InteractionPresenter {
 
     public List<LastInteraction> interactions;
 
-    @Override
     public List<LastInteraction> getLastInteractions() {
         return interactions;
     }

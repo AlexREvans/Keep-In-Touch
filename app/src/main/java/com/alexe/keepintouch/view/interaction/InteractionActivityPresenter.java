@@ -1,4 +1,4 @@
-package com.alexe.keepintouch;
+package com.alexe.keepintouch.view.interaction;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -7,19 +7,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.alexe.keepintouch.control.ContactAdapter;
-import com.alexe.keepintouch.data.Contact;
-import com.alexe.keepintouch.data.manager.SmsContactManager;
+import com.alexe.keepintouch.R;
+import com.alexe.keepintouch.core.interaction.InteractionManager;
+import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
+import com.alexe.keepintouch.core.interaction.presenter.InteractionPresenter;
+import com.alexe.keepintouch.core.interaction.source.MockInteractionSource;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Calendar;
 import java.util.List;
 
-public class KeepInTouchActivity extends AppCompatActivity {
+public class InteractionActivityPresenter extends AppCompatActivity implements InteractionPresenter {
+
+    private InteractionManager im;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,9 @@ public class KeepInTouchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_keep_in_touch);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        im = new InteractionManager(this);
+        im.addInteractionSource(new MockInteractionSource());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -37,12 +44,14 @@ public class KeepInTouchActivity extends AppCompatActivity {
             }
         });
 
-        List<Contact> smsContacts = new SmsContactManager(getApplicationContext()).getContacts();
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ContactAdapter(smsContacts));
+
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -6);
+        im.populateLastInteractions(cal.getTime());
     }
 
     @Override
@@ -64,5 +73,10 @@ public class KeepInTouchActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setLastInteractions(List<LastInteraction> lastInteractions) {
+        recyclerView.setAdapter(new LastInteractionAdapter(lastInteractions));
     }
 }

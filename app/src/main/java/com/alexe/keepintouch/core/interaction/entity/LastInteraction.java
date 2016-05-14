@@ -8,14 +8,11 @@ public class LastInteraction {
 
     private Contact contact;
     private Date date;
-    private String sourceName;
-    private InteractionSource.Responder responder;
+    private SourceDetails interactionSource;
 
-    public LastInteraction(Contact contact, Date date, InteractionSource source) {
+    public LastInteraction(Contact contact, Date date, SourceDetails source) {
         this.contact = contact;
         this.date = date;
-        this.sourceName = source.getName();
-        this.responder = source.getResponder();
     }
 
     public Contact getContact() {
@@ -24,14 +21,6 @@ public class LastInteraction {
 
     public Date getDate() {
         return date;
-    }
-
-    public String getSourceName() {
-        return sourceName;
-    }
-
-    public InteractionSource.Responder getResponder() {
-        return responder;
     }
 
 }

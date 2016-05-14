@@ -7,5 +7,5 @@
     android:layout_height="match_parent"
     android:scrollbars="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.alexe.keepintouch.KeepInTouchActivity"
+    tools:context=".view.interaction.InteractionActivityPresenter"
     tools:showIn="@layout/activity_keep_in_touch" />

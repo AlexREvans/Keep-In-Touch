@@ -1,9 +1,10 @@
-package com.alexe.keepintouch.core.interaction.source.mock;
+package com.alexe.keepintouch.core.interaction.source;
 
 import android.content.Intent;
 
 import com.alexe.keepintouch.core.interaction.entity.Contact;
 import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
+import com.alexe.keepintouch.core.interaction.entity.SourceDetails;
 import com.alexe.keepintouch.core.interaction.source.InteractionSource;
 
 import java.util.ArrayList;
@@ -33,13 +34,25 @@ public class MockInteractionSource implements InteractionSource {
         cal.add(Calendar.MONTH, -2);
         dates.add(cal.getTime());
 
-        String[] names = new String[] {
+        String[] names = new String[]{
                 "Bob", "Joe", "Helen", "Chris"
+        };
+
+        SourceDetails mockDetails = new SourceDetails() {
+            @Override
+            public String getName() {
+                return "Mock";
+            }
+
+            @Override
+            public Responder getResponder(String message) {
+                return null;
+            }
         };
 
         for (int i = 0; i < dates.size(); ++i) {
             String name = names[i % names.length];
-            lastInteractions.put(name, new LastInteraction(new Contact(), dates.get(i), this));
+            lastInteractions.put(name, new LastInteraction(new Contact(name, name, null), dates.get(i), mockDetails));
         }
 
     }
@@ -57,13 +70,4 @@ public class MockInteractionSource implements InteractionSource {
         return recent;
     }
 
-    @Override
-    public String getName() {
-        return "Imaginary";
-    }
-
-    @Override
-    public Responder getResponder() {
-        return null;
-    }
 }
