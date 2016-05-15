@@ -1,11 +1,8 @@
 package com.alexe.keepintouch.core.interaction.source;
 
-import android.content.Intent;
-
-import com.alexe.keepintouch.core.interaction.entity.Contact;
+import com.alexe.keepintouch.core.contact.Contact;
 import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
 import com.alexe.keepintouch.core.interaction.entity.SourceDetails;
-import com.alexe.keepintouch.core.interaction.source.InteractionSource;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,11 +10,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 public class MockInteractionSource implements InteractionSource {
 
     private Map<String, LastInteraction> lastInteractions = new HashMap<>();
+
+    private static final String KITTEN_URL = "http://placekitten.com/";
 
     public MockInteractionSource() {
         Calendar cal = Calendar.getInstance();
@@ -52,7 +50,9 @@ public class MockInteractionSource implements InteractionSource {
 
         for (int i = 0; i < dates.size(); ++i) {
             String name = names[i % names.length];
-            lastInteractions.put(name, new LastInteraction(new Contact(name, name, null), dates.get(i), mockDetails));
+            int dim = 500 + i;
+
+            lastInteractions.put(name, new LastInteraction(new Contact(name, name, KITTEN_URL + 500 + "/" + dim), dates.get(i), mockDetails));
         }
 
     }

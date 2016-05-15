@@ -1,5 +1,7 @@
 package com.alexe.keepintouch.core.interaction.entity;
 
+import com.alexe.keepintouch.core.contact.Contact;
+
 import java.util.Date;
 
 public class LastInteraction {
@@ -11,6 +13,7 @@ public class LastInteraction {
     public LastInteraction(Contact contact, Date date, SourceDetails source) {
         this.contact = contact;
         this.date = date;
+        this.interactionSourceDetails = source;
     }
 
     public Contact getContact() {

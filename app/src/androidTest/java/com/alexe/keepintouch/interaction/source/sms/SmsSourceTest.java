@@ -4,6 +4,7 @@ package com.alexe.keepintouch.interaction.source.sms;
 import android.app.Application;
 import android.test.ApplicationTestCase;
 
+import com.alexe.keepintouch.core.contact.MockContactProvider;
 import com.alexe.keepintouch.core.interaction.InteractionManager;
 import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
 import com.alexe.keepintouch.core.interaction.presenter.MockInteractionPresenter;
@@ -17,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -41,13 +43,13 @@ public class SmsSourceTest extends ApplicationTestCase<Application> {
     @Test
     public void getSmsInteractions() {
         setup();
-        im.addInteractionSource(new SmsInteractionSource(getContext()));
+        im.addInteractionSource(new SmsInteractionSource(getContext(), new MockContactProvider()));
         im.populateLastInteractions(sixMonthsAgo());
         List<LastInteraction> interactions = ip.getLastInteractions();
         assertThat(interactions.size(), is(not(0)));
 
         for (LastInteraction interaction : interactions) {
-            assertThat(interaction.getInteractionSourceDetails(), is(not(null)));
+            assertThat(interaction.getInteractionSourceDetails(), is(not(nullValue())));
         }
     }
 

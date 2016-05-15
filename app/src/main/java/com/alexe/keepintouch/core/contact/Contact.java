@@ -1,4 +1,4 @@
-package com.alexe.keepintouch.core.interaction.entity;
+package com.alexe.keepintouch.core.contact;
 
 public class Contact {
     private String name;

@@ -6,7 +6,8 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
 
-import com.alexe.keepintouch.core.interaction.entity.Contact;
+import com.alexe.keepintouch.core.contact.Contact;
+import com.alexe.keepintouch.core.contact.ContactProvider;
 import com.alexe.keepintouch.core.interaction.entity.LastInteraction;
 import com.alexe.keepintouch.core.interaction.source.InteractionSource;
 
@@ -23,9 +24,11 @@ public class SmsInteractionSource implements InteractionSource {
     };
 
     private Context context;
+    private ContactProvider contactProvider;
 
-    public SmsInteractionSource(Context ctx) {
+    public SmsInteractionSource(Context ctx, ContactProvider contactProvider) {
         context = ctx;
+        this.contactProvider = contactProvider;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class SmsInteractionSource implements InteractionSource {
             Date lastContact = new Date(c.getLong(0));
             final String phoneNumber = c.getString(1);
             String body = c.getString(2);
-            final ContactInfo contactInfo = getContactInfoFromPhoneNumber(phoneNumber);
+            final Contact contactInfo = contactProvider.getContact(phoneNumber);
 
             if (contactInfo == null) {
                 c.moveToNext();
@@ -69,18 +72,18 @@ public class SmsInteractionSource implements InteractionSource {
 
             final LastInteraction lastInter;
 
-            if (!lastInteraction.containsKey(contactInfo.id)) {
+            if (!lastInteraction.containsKey(contactInfo.getId())) {
                 SmsSourceDetails details = new SmsSourceDetails(phoneNumber);
                 details.setLastMessage(body);
                 lastInter = new LastInteraction(
-                        new Contact(contactInfo.id, contactInfo.name, contactInfo.photo),
+                        contactInfo,
                         lastContact,
                         details);
                 lastInter.setInteractionSourceDetails(details);
 
-                lastInteraction.put(contactInfo.id, lastInter);
+                lastInteraction.put(contactInfo.getId(), lastInter);
             } else {
-                lastInter = lastInteraction.get(contactInfo.id);
+                lastInter = lastInteraction.get(contactInfo.getId());
 
                 if (lastContact.after(lastInter.getDate())) {
                     lastInter.setDate(lastContact);
@@ -92,42 +95,5 @@ public class SmsInteractionSource implements InteractionSource {
         }
 
         return lastInteraction;
-    }
-
-    private class ContactInfo {
-        public String id;
-        public String name;
-        public String type;
-        public String photo;
-
-    }
-
-    private ContactInfo getContactInfoFromPhoneNumber(String phone) {
-        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phone));
-        Cursor c = context.getContentResolver().query(
-                uri,
-                new String[]{
-                        ContactsContract.PhoneLookup.DISPLAY_NAME,
-                        ContactsContract.PhoneLookup._ID,
-                        ContactsContract.PhoneLookup.TYPE,
-                        ContactsContract.PhoneLookup.PHOTO_URI
-                },
-                null, null, null
-        );
-
-        if (!c.moveToFirst()) {
-            c.close();
-            return null;
-        }
-
-        ContactInfo x = new ContactInfo();
-        x.name = c.getString(0);
-        x.id = c.getString(1);
-        x.type = c.getString(2);
-        x.photo = c.getString(3);
-
-        c.close();
-
-        return x;
     }
 }
