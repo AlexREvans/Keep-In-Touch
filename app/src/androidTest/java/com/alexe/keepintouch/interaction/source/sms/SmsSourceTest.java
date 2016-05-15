@@ -12,7 +12,6 @@ import com.alexe.keepintouch.data.interaction.source.sms.SmsInteractionSource;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.Calendar;
 import java.util.Date;

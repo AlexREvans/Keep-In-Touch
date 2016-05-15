@@ -33,7 +33,7 @@ public class MockInteractionSource implements InteractionSource {
         dates.add(cal.getTime());
 
         String[] names = new String[]{
-                "Bob", "Joe", "Helen", "Chris"
+                "Al", "Bill", "Charlie", "Dom"
         };
 
         SourceDetails mockDetails = new SourceDetails() {
